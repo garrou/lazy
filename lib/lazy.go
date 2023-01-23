@@ -15,14 +15,6 @@ func (l Lazies) findByName(name string) int {
 	return -1
 }
 
-func (l Lazies) replaceLazy(oldName, name, path string) {
-	for _, l := range l.Lazies {
-		if strings.EqualFold(name, l.Name) {
-
-		}
-	}
-}
-
 type Lazy struct {
 	Name string `json:"name"`
 	Path string `json:"path"`

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func BindArgs(args []string) (string, string) {
+func Bind2Args(args []string) (string, string) {
 	if len(args) != 2 {
 		log.Fatal("Needs 2 arguments : name and path")
 	}
@@ -17,6 +17,13 @@ func BindArgs(args []string) (string, string) {
 		log.Fatal(err)
 	}
 	return args[0], args[1]
+}
+
+func BindArg(args []string) string {
+	if len(args) != 1 {
+		log.Fatal("Needs 1 argument : name")
+	}
+	return args[0]
 }
 
 func checkPath(p string) error {
