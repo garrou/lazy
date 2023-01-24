@@ -1,1 +1,8 @@
-{"lazies":[{"name":"minesweeper","path":"D:\\dev\\minesweeper\\"}]}
+{
+    "lazies": [
+        {
+            "name": "minesweeper",
+            "path": "D:\\dev\\minesweeper\\"
+        }
+    ]
+}

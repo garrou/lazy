@@ -115,8 +115,12 @@ func MoveLazy(oldName, newName string) error {
 }
 
 func Display(lazies []Lazy) {
-	for _, c := range lazies {
-		fmt.Println(c)
+	if len(lazies) > 1 {
+		for _, c := range lazies {
+			fmt.Println(c)
+		}
+	} else if len(lazies) > 0 {
+		fmt.Println(lazies[0].Path)
 	}
 }
 

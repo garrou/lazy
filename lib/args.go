@@ -5,18 +5,19 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func BindNamePath(args []string) (string, string) {
 	if len(args) != 2 {
 		log.Fatal("Needs 2 arguments : name and path")
 	}
-	err := checkPath(args[1])
+	path, err := checkPath(args[1])
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	return args[0], args[1]
+	return args[0], path
 }
 
 func BindNames(args []string) (string, string) {
@@ -40,9 +41,11 @@ func BindOptionalName(args []string) string {
 	return args[0]
 }
 
-func checkPath(p string) error {
-	if _, err := os.Stat(p); err != nil {
-		return errors.New(fmt.Sprintf("%s is not accessible", p))
+func checkPath(p string) (string, error) {
+	path, _ := filepath.Abs(p)
+
+	if _, err := os.Stat(path); err != nil {
+		return "", errors.New(fmt.Sprintf("%s is not accessible", p))
 	}
-	return nil
+	return path, nil
 }
