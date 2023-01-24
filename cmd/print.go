@@ -10,8 +10,7 @@ import (
 var (
 	printCmd = &cobra.Command{
 		Use:   "print",
-		Short: "print",
-		Long:  "Print all lazies",
+		Short: "Print all lazies",
 		Run: func(cmd *cobra.Command, args []string) {
 			if data, err := lib.GetLazies(); err != nil {
 				log.Fatal(err)

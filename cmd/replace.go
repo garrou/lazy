@@ -10,9 +10,9 @@ import (
 
 var (
 	replaceCmd = &cobra.Command{
-		Use:   "replace",
-		Short: "replace [name] [path]",
-		Long:  "Replace a lazy named [name] with the new path [path]",
+		Use:   "replace [NAME] [PATH]",
+		Short: "Replace the path of lazy",
+		Long:  "Replace the path of lazy named [NAME] with the path [PATH]",
 		Run: func(cmd *cobra.Command, args []string) {
 			name, path, err := lib.BindNamePath(args)
 

@@ -9,9 +9,9 @@ import (
 
 var (
 	moveCmd = &cobra.Command{
-		Use:   "move",
-		Short: "move [name] [newname]",
-		Long:  "Move a lazy named [name] to a new lazy named [newname]",
+		Use:   "move [NAME] [NEWNAME]",
+		Short: "Move a lazy",
+		Long:  "Move a lazy named [NAME] to a new lazy named [NEWNAME]",
 		Run: func(cmd *cobra.Command, args []string) {
 			oldName, newName, err := lib.BindNames(args)
 

@@ -9,9 +9,9 @@ import (
 
 var (
 	addCmd = &cobra.Command{
-		Use:   "add",
-		Short: "add [name] [path]",
-		Long:  "Add a lazy named [name] associated to path [path]",
+		Use:   "add [NAME] [PATH]",
+		Short: "Add a lazy with a name associated to a path",
+		Long:  "Add a lazy with a name [NAME] associated to a path [PATH]",
 		Run: func(cmd *cobra.Command, args []string) {
 			name, path, err := lib.BindNamePath(args)
 

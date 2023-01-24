@@ -9,9 +9,9 @@ import (
 
 var (
 	removeCmd = &cobra.Command{
-		Use:   "remove",
-		Short: "remove [name]",
-		Long:  "Remove a lazy named [name]",
+		Use:   "remove [NAME]",
+		Short: "Remove a lazy",
+		Long:  "Remove a lazy named [NAME]",
 		Run: func(cmd *cobra.Command, args []string) {
 			name, err := lib.BindName(args)
 

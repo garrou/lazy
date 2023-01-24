@@ -10,9 +10,9 @@ import (
 
 var (
 	getCmd = &cobra.Command{
-		Use:   "get",
-		Short: "get [name]",
-		Long:  "Get a lazy named [name]",
+		Use:   "get [NAME]",
+		Short: "Get a lazy",
+		Long:  "Get a lazy named [NAME]",
 		Run: func(cmd *cobra.Command, args []string) {
 			name, err := lib.BindName(args)
 
