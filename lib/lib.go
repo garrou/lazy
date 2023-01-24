@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-const FILENAME = "data/lazy.json"
+var Filename string
 
 func AddLazy(name, path string) error {
 	data, err := getData()
@@ -130,7 +130,7 @@ func writeData(data *Lazies) error {
 	if err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(FILENAME, b, 0666); err != nil {
+	if err := ioutil.WriteFile(Filename, b, 0666); err != nil {
 		return err
 	}
 	return nil
@@ -138,7 +138,7 @@ func writeData(data *Lazies) error {
 
 func getData() (*Lazies, error) {
 	data := &Lazies{}
-	f, err := ioutil.ReadFile(FILENAME)
+	f, err := ioutil.ReadFile(Filename)
 
 	if err != nil {
 		return data, err
