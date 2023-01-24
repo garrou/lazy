@@ -34,13 +34,6 @@ func BindName(args []string) (string, error) {
 	return args[0], nil
 }
 
-func BindOptionalName(args []string) (string, error) {
-	if len(args) != 1 {
-		return "", nil
-	}
-	return args[0], nil
-}
-
 func checkPath(p string) (string, error) {
 	path, _ := filepath.Abs(p)
 

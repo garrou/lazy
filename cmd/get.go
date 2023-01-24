@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"lazy/lib"
 	"log"
 
@@ -11,18 +12,18 @@ var (
 	getCmd = &cobra.Command{
 		Use:   "get",
 		Short: "get [name]",
-		Long:  "Get a lazy named [name] or all lazies without name",
+		Long:  "Get a lazy named [name]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, err := lib.BindOptionalName(args)
+			name, err := lib.BindName(args)
 
 			if err != nil {
 				cmd.Usage()
 				return
 			}
-			if data, err := lib.GetLazies(name); err != nil {
+			if data, err := lib.GetLazy(name); err != nil {
 				log.Fatal(err)
 			} else {
-				lib.Display(data)
+				fmt.Println(data)
 			}
 		},
 	}

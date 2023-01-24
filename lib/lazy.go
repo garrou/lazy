@@ -20,5 +20,5 @@ func findByName(lazies []Lazy, name string) int {
 }
 
 func (l Lazy) String() string {
-	return fmt.Sprintf("%s : %s", l.Name, l.Path)
+	return fmt.Sprintf("%s", l.Path)
 }

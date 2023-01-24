@@ -33,22 +33,27 @@ func AddLazy(name, path string) error {
 	return writeData(data)
 }
 
-func GetLazies(name string) ([]Lazy, error) {
+func GetLazy(name string) (*Lazy, error) {
 	data, err := getData()
 
 	if err != nil {
 		return nil, err
-	}
-	if name == "" {
-		return data, nil
 	}
 	index := findByName(data, name)
 
 	if index == -1 {
 		return nil, errors.New(fmt.Sprintf("No lazy named '%s' found", name))
 	}
-	lazies := make([]Lazy, 0)
-	return append(lazies, data[index]), nil
+	return &data[index], nil
+}
+
+func GetLazies() ([]Lazy, error) {
+	data, err := getData()
+
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 func RemoveLazy(name string) error {
@@ -120,16 +125,10 @@ func Display(lazies []Lazy) {
 	t := tabby.New()
 	t.AddHeader("name", "path")
 
-	if len(lazies) > 1 {
-		for _, l := range lazies {
-			t.AddLine(l.Name, l.Path)
-		}
-		t.Print()
-		return
+	for _, l := range lazies {
+		t.AddLine(l.Name, l.Path)
 	}
-	if len(lazies) > 0 {
-		fmt.Println(lazies[0].Path)
-	}
+	t.Print()
 }
 
 func writeData(data []Lazy) error {
