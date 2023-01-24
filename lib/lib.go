@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 )
 
-var Filename string
+const FILENAME = ".config/lazy.json"
 
 func AddLazy(name, path string) error {
 	data, err := getData()
@@ -16,18 +16,18 @@ func AddLazy(name, path string) error {
 	if err != nil {
 		return err
 	}
-	index := data.findByName(name)
+	index := findByName(data, name)
 
 	if index != -1 {
 		return errors.New(
 			fmt.Sprintf(
 				"A lazy named '%s' is already associated to '%s', to replace it use 'lazy replace %s %s'",
-				name, data.Lazies[index].Path,
-				name, data.Lazies[index].Path,
+				name, data[index].Path,
+				name, data[index].Path,
 			),
 		)
 	}
-	data.Lazies = append(data.Lazies, Lazy{name, path})
+	data = append(data, Lazy{name, path})
 	return writeData(data)
 }
 
@@ -38,15 +38,15 @@ func GetLazies(name string) ([]Lazy, error) {
 		return nil, err
 	}
 	if name == "" {
-		return data.Lazies, nil
+		return data, nil
 	}
-	index := data.findByName(name)
+	index := findByName(data, name)
 
 	if index == -1 {
 		return nil, errors.New(fmt.Sprintf("No lazy named '%s' found", name))
 	}
 	lazies := make([]Lazy, 0)
-	return append(lazies, data.Lazies[index]), nil
+	return append(lazies, data[index]), nil
 }
 
 func RemoveLazy(name string) error {
@@ -55,12 +55,12 @@ func RemoveLazy(name string) error {
 	if err != nil {
 		return err
 	}
-	index := data.findByName(name)
+	index := findByName(data, name)
 
 	if index == -1 {
 		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
 	}
-	data.Lazies = append(data.Lazies[:index], data.Lazies[index+1:]...)
+	data = append(data[:index], data[index+1:]...)
 	return writeData(data)
 }
 
@@ -70,12 +70,12 @@ func ReplaceLazy(name, path string) error {
 	if err != nil {
 		return err
 	}
-	index := data.findByName(name)
+	index := findByName(data, name)
 
 	if index == -1 {
 		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
 	}
-	data.Lazies[index].Path = path
+	data[index].Path = path
 	return writeData(data)
 }
 
@@ -85,17 +85,17 @@ func CopyLazy(oldName, newName string) error {
 	if err != nil {
 		return err
 	}
-	oldIndex := data.findByName(oldName)
+	oldIndex := findByName(data, oldName)
 
 	if oldIndex == -1 {
 		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
 	}
-	newIndex := data.findByName(newName)
+	newIndex := findByName(data, newName)
 
 	if newIndex != -1 {
-		return errors.New(fmt.Sprintf("A lazy named '%s' is already associated to '%s'", newName, data.Lazies[newIndex].Path))
+		return errors.New(fmt.Sprintf("A lazy named '%s' is already associated to '%s'", newName, data[newIndex].Path))
 	}
-	data.Lazies = append(data.Lazies, Lazy{newName, data.Lazies[oldIndex].Path})
+	data = append(data, Lazy{newName, data[oldIndex].Path})
 	return writeData(data)
 }
 
@@ -105,12 +105,12 @@ func MoveLazy(oldName, newName string) error {
 	if err != nil {
 		return err
 	}
-	oldIndex := data.findByName(oldName)
+	oldIndex := findByName(data, oldName)
 
 	if oldIndex == -1 {
 		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
 	}
-	data.Lazies[oldIndex].Name = newName
+	data[oldIndex].Name = newName
 	return writeData(data)
 }
 
@@ -124,21 +124,21 @@ func Display(lazies []Lazy) {
 	}
 }
 
-func writeData(data *Lazies) error {
+func writeData(data []Lazy) error {
 	b, err := json.Marshal(data)
 
 	if err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(Filename, b, 0666); err != nil {
+	if err := ioutil.WriteFile(FILENAME, b, 0666); err != nil {
 		return err
 	}
 	return nil
 }
 
-func getData() (*Lazies, error) {
-	data := &Lazies{}
-	f, err := ioutil.ReadFile(Filename)
+func getData() ([]Lazy, error) {
+	var data []Lazy
+	f, err := ioutil.ReadFile(FILENAME)
 
 	if err != nil {
 		return data, err
