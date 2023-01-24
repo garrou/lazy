@@ -1,6 +1,28 @@
 # lazy
 
+## Usage
+
 ```sh
-lazy.exe add minesweeper D:/dev/minesweeper
-code (lazy.exe get minesweeper)
+lazy add series D:/dev/seriesmanager
+lazy add mines D:/dev/minesweeper
+```
+
+In .config/lazy.json, 2 shortcuts was created
+
+```json
+[
+    {
+        "name": "mines",
+        "path": "D:\\dev\\minesweeper"
+    },
+    {
+        "name": "series",
+        "path": "D:\\dev\\seriesmanager"
+    }
+]
+```
+
+```sh
+code (lazy.exe get mines)
+cd (lazy.exe get series)
 ```
