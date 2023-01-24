@@ -32,6 +32,24 @@ func AddLazy(name, path string) error {
 	return writeData(data)
 }
 
+func GetLazies(name string) ([]Lazy, error) {
+	data, err := getData()
+
+	if err != nil {
+		return nil, err
+	}
+	if name == "" {
+		return data.Lazies, nil
+	}
+	index := data.findByName(name)
+
+	if index == -1 {
+		return nil, errors.New(fmt.Sprintf("No lazy named '%s' found", name))
+	}
+	lazies := make([]Lazy, 0)
+	return append(lazies, data.Lazies[index]), nil
+}
+
 func RemoveLazy(name string) error {
 	data, err := getData()
 
@@ -45,6 +63,12 @@ func RemoveLazy(name string) error {
 	}
 	data.Lazies = append(data.Lazies[:index], data.Lazies[index+1:]...)
 	return writeData(data)
+}
+
+func Display(lazies []Lazy) {
+	for _, c := range lazies {
+		fmt.Println(c)
+	}
 }
 
 func writeData(data *Lazies) error {

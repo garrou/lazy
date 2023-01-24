@@ -26,6 +26,13 @@ func BindArg(args []string) string {
 	return args[0]
 }
 
+func BindOptionnalArg(args []string) string {
+	if len(args) != 1 {
+		return ""
+	}
+	return args[0]
+}
+
 func checkPath(p string) error {
 	if _, err := os.Stat(p); err != nil {
 		return errors.New(fmt.Sprintf("%s is not accessible", p))

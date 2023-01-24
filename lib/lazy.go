@@ -1,6 +1,9 @@
 package lib
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type Lazies struct {
 	Lazies []Lazy `json:"lazies"`
@@ -18,4 +21,8 @@ func (l Lazies) findByName(name string) int {
 type Lazy struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+}
+
+func (l Lazy) String() string {
+	return fmt.Sprintf("%s : %s", l.Name, l.Path)
 }
