@@ -9,14 +9,17 @@ import (
 
 var (
 	removeCmd = &cobra.Command{
-		Use:   "remove [name]",
-		Short: "Remove a lazy",
+		Use:   "remove",
+		Short: "remove [name]",
 		Long:  "Remove a lazy named [name]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name := lib.BindName(args)
-			err := lib.RemoveLazy(name)
+			name, err := lib.BindName(args)
 
 			if err != nil {
+				cmd.Usage()
+				return
+			}
+			if err := lib.RemoveLazy(name); err != nil {
 				log.Fatal(err)
 			}
 		},

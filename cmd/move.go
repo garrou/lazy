@@ -9,14 +9,17 @@ import (
 
 var (
 	moveCmd = &cobra.Command{
-		Use:   "move [name] [newname]",
-		Short: "Move a lazy named [name] to [newname]",
-		Long:  "Move a lazy named [name] to a new lazy called [newname]",
+		Use:   "move",
+		Short: "move [name] [newname]",
+		Long:  "Move a lazy named [name] to a new lazy named [newname]",
 		Run: func(cmd *cobra.Command, args []string) {
-			oldName, newName := lib.BindNames(args)
-			err := lib.MoveLazy(oldName, newName)
+			oldName, newName, err := lib.BindNames(args)
 
 			if err != nil {
+				cmd.Usage()
+				return
+			}
+			if err := lib.MoveLazy(oldName, newName); err != nil {
 				log.Fatal(err)
 			}
 		},

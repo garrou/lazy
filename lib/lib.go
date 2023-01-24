@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+
+	"github.com/cheynewallace/tabby"
 )
 
 const FILENAME = ".config/lazy.json"
@@ -115,11 +117,17 @@ func MoveLazy(oldName, newName string) error {
 }
 
 func Display(lazies []Lazy) {
+	t := tabby.New()
+	t.AddHeader("name", "path")
+
 	if len(lazies) > 1 {
-		for _, c := range lazies {
-			fmt.Println(c)
+		for _, l := range lazies {
+			t.AddLine(l.Name, l.Path)
 		}
-	} else if len(lazies) > 0 {
+		t.Print()
+		return
+	}
+	if len(lazies) > 0 {
 		fmt.Println(lazies[0].Path)
 	}
 }

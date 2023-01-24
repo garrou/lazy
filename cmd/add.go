@@ -9,14 +9,17 @@ import (
 
 var (
 	addCmd = &cobra.Command{
-		Use:   "add [name] [path]",
-		Short: "Add a lazy",
+		Use:   "add",
+		Short: "add [name] [path]",
 		Long:  "Add a lazy named [name] associated to path [path]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, path := lib.BindNamePath(args)
-			err := lib.AddLazy(name, path)
+			name, path, err := lib.BindNamePath(args)
 
 			if err != nil {
+				cmd.Usage()
+				return
+			}
+			if err := lib.AddLazy(name, path); err != nil {
 				log.Fatal(err)
 			}
 		},

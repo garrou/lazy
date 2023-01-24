@@ -9,17 +9,21 @@ import (
 
 var (
 	getCmd = &cobra.Command{
-		Use:   "get [name]",
-		Short: "Get a lazy with name or all lazies",
+		Use:   "get",
+		Short: "get [name]",
 		Long:  "Get a lazy named [name] or all lazies without name",
 		Run: func(cmd *cobra.Command, args []string) {
-			name := lib.BindOptionalName(args)
-			data, err := lib.GetLazies(name)
+			name, err := lib.BindOptionalName(args)
 
 			if err != nil {
-				log.Fatal(err)
+				cmd.Usage()
+				return
 			}
-			lib.Display(data)
+			if data, err := lib.GetLazies(name); err != nil {
+				log.Fatal(err)
+			} else {
+				lib.Display(data)
+			}
 		},
 	}
 )

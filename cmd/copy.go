@@ -9,14 +9,17 @@ import (
 
 var (
 	copyCmd = &cobra.Command{
-		Use:   "copy [name] [newname]",
-		Short: "Copy a lazy named [name] to [newname]",
+		Use:   "copy",
+		Short: "copy [name] [newname]",
 		Long:  "Copy a lazy named [name] to a new lazy called [newname]",
 		Run: func(cmd *cobra.Command, args []string) {
-			oldName, newName := lib.BindNames(args)
-			err := lib.CopyLazy(oldName, newName)
+			oldName, newName, err := lib.BindNames(args)
 
 			if err != nil {
+				cmd.Usage()
+				return
+			}
+			if err := lib.CopyLazy(oldName, newName); err != nil {
 				log.Fatal(err)
 			}
 		},

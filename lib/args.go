@@ -3,42 +3,42 @@ package lib
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
-func BindNamePath(args []string) (string, string) {
+func BindNamePath(args []string) (string, string, error) {
 	if len(args) != 2 {
-		log.Fatal("Needs 2 arguments : name and path")
+		return "", "", errors.New("needs 2 args, -h for help")
 	}
 	path, err := checkPath(args[1])
 
-	if err != nil {
-		log.Fatal(err)
+	if err != nil || strings.TrimSpace(args[0]) == "" {
+		return "", "", errors.New("needs 2 args, -h for help")
 	}
-	return args[0], path
+	return args[0], path, nil
 }
 
-func BindNames(args []string) (string, string) {
+func BindNames(args []string) (string, string, error) {
 	if len(args) != 2 {
-		log.Fatal("Needs 2 arguments : name name")
+		return "", "", errors.New("needs 2 args, -h for help")
 	}
-	return args[0], args[1]
+	return args[0], args[1], nil
 }
 
-func BindName(args []string) string {
-	if len(args) != 1 {
-		log.Fatal("Needs 1 argument : name")
+func BindName(args []string) (string, error) {
+	if len(args) != 1 || strings.TrimSpace(args[0]) == "" {
+		return "", errors.New("needs 1 arg, -h for help")
 	}
-	return args[0]
+	return args[0], nil
 }
 
-func BindOptionalName(args []string) string {
+func BindOptionalName(args []string) (string, error) {
 	if len(args) != 1 {
-		return ""
+		return "", nil
 	}
-	return args[0]
+	return args[0], nil
 }
 
 func checkPath(p string) (string, error) {
