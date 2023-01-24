@@ -16,7 +16,6 @@ func AddLazy(name, path string) error {
 	if err != nil {
 		return err
 	}
-	l := Lazy{name, path}
 	index := data.findByName(name)
 
 	if index != -1 {
@@ -28,7 +27,7 @@ func AddLazy(name, path string) error {
 			),
 		)
 	}
-	data.Lazies = append(data.Lazies, l)
+	data.Lazies = append(data.Lazies, Lazy{name, path})
 	return writeData(data)
 }
 
@@ -62,6 +61,56 @@ func RemoveLazy(name string) error {
 		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
 	}
 	data.Lazies = append(data.Lazies[:index], data.Lazies[index+1:]...)
+	return writeData(data)
+}
+
+func ReplaceLazy(name, path string) error {
+	data, err := getData()
+
+	if err != nil {
+		return err
+	}
+	index := data.findByName(name)
+
+	if index == -1 {
+		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
+	}
+	data.Lazies[index].Path = path
+	return writeData(data)
+}
+
+func CopyLazy(oldName, newName string) error {
+	data, err := getData()
+
+	if err != nil {
+		return err
+	}
+	oldIndex := data.findByName(oldName)
+
+	if oldIndex == -1 {
+		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
+	}
+	newIndex := data.findByName(newName)
+
+	if newIndex != -1 {
+		return errors.New(fmt.Sprintf("A lazy named '%s' is already associated to '%s'", newName, data.Lazies[newIndex].Path))
+	}
+	data.Lazies = append(data.Lazies, Lazy{newName, data.Lazies[oldIndex].Path})
+	return writeData(data)
+}
+
+func MoveLazy(oldName, newName string) error {
+	data, err := getData()
+
+	if err != nil {
+		return err
+	}
+	oldIndex := data.findByName(oldName)
+
+	if oldIndex == -1 {
+		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
+	}
+	data.Lazies[oldIndex].Name = newName
 	return writeData(data)
 }
 

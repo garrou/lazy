@@ -13,7 +13,7 @@ var (
 		Short: "Add a lazy",
 		Long:  "Add a lazy named [name] associated to path [path]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, path := lib.Bind2Args(args)
+			name, path := lib.BindNamePath(args)
 			err := lib.AddLazy(name, path)
 
 			if err != nil {

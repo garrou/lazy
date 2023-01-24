@@ -13,7 +13,7 @@ var (
 		Short: "Get a lazy with name or all lazies",
 		Long:  "Get a lazy named [name] or all lazies without name",
 		Run: func(cmd *cobra.Command, args []string) {
-			name := lib.BindOptionnalArg(args)
+			name := lib.BindOptionalName(args)
 			data, err := lib.GetLazies(name)
 
 			if err != nil {

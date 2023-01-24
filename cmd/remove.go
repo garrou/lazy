@@ -13,7 +13,7 @@ var (
 		Short: "Remove a lazy",
 		Long:  "Remove a lazy named [name]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name := lib.BindArg(args)
+			name := lib.BindName(args)
 			err := lib.RemoveLazy(name)
 
 			if err != nil {
