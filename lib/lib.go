@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 
 	"github.com/cheynewallace/tabby"
 )
@@ -137,7 +139,9 @@ func writeData(data []Lazy) error {
 	if err != nil {
 		return err
 	}
-	if err := ioutil.WriteFile(FILENAME, b, 0666); err != nil {
+	path := getJsonPath(FILENAME)
+
+	if err := ioutil.WriteFile(path, b, 0666); err != nil {
 		return err
 	}
 	return nil
@@ -145,7 +149,8 @@ func writeData(data []Lazy) error {
 
 func getData() ([]Lazy, error) {
 	var data []Lazy
-	f, err := ioutil.ReadFile(FILENAME)
+	path := getJsonPath(FILENAME)
+	f, err := ioutil.ReadFile(path)
 
 	if err != nil {
 		return data, err
@@ -154,4 +159,13 @@ func getData() ([]Lazy, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func getJsonPath(filename string) string {
+	ex, err := os.Executable()
+
+	if err != nil {
+		panic(err)
+	}
+	return filepath.Join(filepath.Dir(ex), filename)
 }
