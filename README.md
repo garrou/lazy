@@ -23,6 +23,6 @@ In .config/lazy.json, 2 shortcuts was created
 ```
 
 ```sh
-code (lazy.exe get mines)
-cd (lazy.exe get series)
+code (lazy get mines)
+cd (lazy get series)
 ```
