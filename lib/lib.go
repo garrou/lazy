@@ -25,9 +25,10 @@ func AddLazy(name, path string) error {
 	if index != -1 {
 		return errors.New(
 			fmt.Sprintf(
-				"A lazy named '%s' is already associated to '%s', to replace it use 'lazy replace %s %s'",
-				name, data[index].Path,
-				name, data[index].Path,
+				"A lazy named '%s' is already associated to '%s', to replace it use 'lazy replace %s [path]'",
+				name, 
+				data[index].Path,
+				name,
 			),
 		)
 	}
