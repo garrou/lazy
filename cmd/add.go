@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"lazy/lib"
 	"log"
 
@@ -13,13 +14,12 @@ var (
 		Short: "Add a lazy with a name associated to a path",
 		Long:  "Add a lazy with a name [NAME] associated to a path [PATH]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, path, err := lib.BindNamePath(args)
+			name, path, err := lib.CheckArgsNamePath(args)
 
 			if err != nil {
+				fmt.Println(err)
 				cmd.Usage()
-				return
-			}
-			if err := lib.AddLazy(name, path); err != nil {
+			} else if err := lib.AddLazy(name, path); err != nil {
 				log.Fatal(err)
 			}
 		},

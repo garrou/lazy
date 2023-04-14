@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"lazy/lib"
 	"log"
 
@@ -9,17 +10,16 @@ import (
 
 var (
 	copyCmd = &cobra.Command{
-		Use:   "copy [NAME] [NEWNAME]",
+		Use:   "cp [NAME] [NEWNAME]",
 		Short: "Copy a lazy",
 		Long:  "Copy a lazy named [NAME] to a new lazy named [NEWNAME]",
 		Run: func(cmd *cobra.Command, args []string) {
-			oldName, newName, err := lib.BindNames(args)
+			err := lib.CheckArgs(args, 2)
 
 			if err != nil {
+				fmt.Println(err)
 				cmd.Usage()
-				return
-			}
-			if err := lib.CopyLazy(oldName, newName); err != nil {
+			} else if err := lib.CopyLazy(args[0], args[1]); err != nil {
 				log.Fatal(err)
 			}
 		},

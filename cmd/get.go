@@ -14,13 +14,14 @@ var (
 		Short: "Get a lazy",
 		Long:  "Get a lazy named [NAME]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, err := lib.BindName(args)
+			err := lib.CheckArgs(args, 1)
 
 			if err != nil {
+				fmt.Println(err)
 				cmd.Usage()
 				return
 			}
-			if data, err := lib.GetLazy(name); err != nil {
+			if data, err := lib.GetLazy(args[0]); err != nil {
 				log.Fatal(err)
 			} else {
 				fmt.Println(data)

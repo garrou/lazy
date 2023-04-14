@@ -8,37 +8,38 @@ import (
 	"strings"
 )
 
-func BindNamePath(args []string) (string, string, error) {
-	if len(args) != 2 {
+func CheckArgsNamePath(args []string) (string, string, error) {
+	if len(args) != 2 || strings.TrimSpace(args[0]) == "" || strings.TrimSpace(args[1]) == "" {
 		return "", "", errors.New("needs 2 args, -h for help")
 	}
 	path, err := checkPath(args[1])
 
-	if err != nil || strings.TrimSpace(args[0]) == "" {
-		return "", "", errors.New("needs 2 args, -h for help")
+	if err != nil {
+		return "", "", err
+	}
+	if strings.TrimSpace(args[0]) == "" {
+		return "", "", errors.New("error : needs 2 args, -h for help")
 	}
 	return args[0], path, nil
 }
 
-func BindNames(args []string) (string, string, error) {
-	if len(args) != 2 {
-		return "", "", errors.New("needs 2 args, -h for help")
+func CheckArgs(args []string, expected int) error {
+	if len(args) != expected {
+		return errors.New(fmt.Sprintf("error : needs %d args, -h for help", expected))
 	}
-	return args[0], args[1], nil
-}
-
-func BindName(args []string) (string, error) {
-	if len(args) != 1 || strings.TrimSpace(args[0]) == "" {
-		return "", errors.New("needs 1 arg, -h for help")
+	for _, v := range args {
+		if strings.TrimSpace(v) == "" {
+			return errors.New(fmt.Sprintf("error : needs %d args, -h for help", expected))
+		}
 	}
-	return args[0], nil
+	return nil
 }
 
 func checkPath(p string) (string, error) {
 	path, _ := filepath.Abs(p)
 
 	if _, err := os.Stat(path); err != nil {
-		return "", errors.New(fmt.Sprintf("%s is not accessible", p))
+		return "", errors.New(fmt.Sprintf("error : %s is not accessible", p))
 	}
 	return path, nil
 }

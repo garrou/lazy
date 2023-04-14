@@ -10,17 +10,16 @@ import (
 
 var (
 	replaceCmd = &cobra.Command{
-		Use:   "replace [NAME] [PATH]",
+		Use:   "rp [NAME] [PATH]",
 		Short: "Replace the path of lazy",
 		Long:  "Replace the path of lazy named [NAME] with the path [PATH]",
 		Run: func(cmd *cobra.Command, args []string) {
-			name, path, err := lib.BindNamePath(args)
+			name, path, err := lib.CheckArgsNamePath(args)
 
 			if err != nil {
-				fmt.Println(cmd.Usage())
-				return
-			}
-			if err := lib.ReplaceLazy(name, path); err != nil {
+				fmt.Println(err)
+				cmd.Usage()
+			} else if err := lib.ReplaceLazy(name, path); err != nil {
 				log.Fatal(err)
 			}
 		},

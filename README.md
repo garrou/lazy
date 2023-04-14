@@ -23,6 +23,7 @@ In .config/lazy.json, 2 shortcuts was created
 ```
 
 ```sh
-code (lazy get mines)
-cd (lazy get series)
+code (lazy get mines)               # open vscode at D:\\dev\\minesweeper
+cd (lazy get series)                # move at D:\\dev\\seriesmanager
+git -C (lazy get series) status     # git status at D:\\dev\\seriesmanager
 ```

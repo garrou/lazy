@@ -25,8 +25,8 @@ func AddLazy(name, path string) error {
 	if index != -1 {
 		return errors.New(
 			fmt.Sprintf(
-				"A lazy named '%s' is already associated to '%s', to replace it use 'lazy replace %s [path]'",
-				name, 
+				"error : a lazy named '%s' is already associated to '%s', to replace it use 'lazy replace %s [path]'",
+				name,
 				data[index].Path,
 				name,
 			),
@@ -45,7 +45,7 @@ func GetLazy(name string) (*Lazy, error) {
 	index := findByName(data, name)
 
 	if index == -1 {
-		return nil, errors.New(fmt.Sprintf("No lazy named '%s' found", name))
+		return nil, errors.New(fmt.Sprintf("error : no lazy named '%s' found", name))
 	}
 	return &data[index], nil
 }
@@ -68,7 +68,7 @@ func RemoveLazy(name string) error {
 	index := findByName(data, name)
 
 	if index == -1 {
-		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
+		return errors.New(fmt.Sprintf("error : no lazy named '%s' found", name))
 	}
 	data = append(data[:index], data[index+1:]...)
 	return writeData(data)
@@ -83,7 +83,7 @@ func ReplaceLazy(name, path string) error {
 	index := findByName(data, name)
 
 	if index == -1 {
-		return errors.New(fmt.Sprintf("No lazy named '%s' found", name))
+		return errors.New(fmt.Sprintf("error : no lazy named '%s' found", name))
 	}
 	data[index].Path = path
 	return writeData(data)
@@ -98,12 +98,12 @@ func CopyLazy(oldName, newName string) error {
 	oldIndex := findByName(data, oldName)
 
 	if oldIndex == -1 {
-		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
+		return errors.New(fmt.Sprintf("error : no lazy named '%s' found", oldName))
 	}
 	newIndex := findByName(data, newName)
 
 	if newIndex != -1 {
-		return errors.New(fmt.Sprintf("A lazy named '%s' is already associated to '%s'", newName, data[newIndex].Path))
+		return errors.New(fmt.Sprintf("error : a lazy named '%s' is already associated to '%s'", newName, data[newIndex].Path))
 	}
 	data = append(data, Lazy{newName, data[oldIndex].Path})
 	return writeData(data)
@@ -118,7 +118,7 @@ func MoveLazy(oldName, newName string) error {
 	oldIndex := findByName(data, oldName)
 
 	if oldIndex == -1 {
-		return errors.New(fmt.Sprintf("No lazy named '%s' found", oldName))
+		return errors.New(fmt.Sprintf("error : no lazy named '%s' found", oldName))
 	}
 	data[oldIndex].Name = newName
 	return writeData(data)
